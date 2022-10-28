@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ListRowView: View {
     
-    @Binding var item: ItemModel
+    var item: ItemModel
     
     @EnvironmentObject var listViewModel: ListViewModel
     
@@ -33,7 +33,7 @@ struct ListRowView: View {
                     
                     Spacer()
                     
-                    TextField(item.title, text: $item.title)
+                    Text(item.title)
                         .keyboardType(.default)
                         .multilineTextAlignment(.center)
                         .frame(alignment: .trailing)
@@ -56,17 +56,17 @@ struct ListRowView: View {
     }
 }
 
-
-struct ListRowView_Previews: PreviewProvider {
-    
-    static var item1 = ItemModel(title: "First item!", isCompleted: false)
-    static var item2 = ItemModel(title: "Second Item.", isCompleted: true)
-    
-    static var previews: some View {
-        Group {
-            ListRowView(item: .constant(item1))
-            ListRowView(item: .constant(item2))
-        }
-        .previewLayout(.sizeThatFits)
-    }
-}
+//
+//struct ListRowView_Previews: PreviewProvider {
+//    
+//    static var item1 = ItemModel(title: "First item!", isCompleted: false)
+//    static var item2 = ItemModel(title: "Second Item.", isCompleted: true)
+//    
+//    static var previews: some View {
+//        Group {
+//            ListRowView(item: .constant(item1))
+//            ListRowView(item: .constant(item2))
+//        }
+//        .previewLayout(.sizeThatFits)
+//    }
+//}

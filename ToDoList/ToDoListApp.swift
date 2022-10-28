@@ -11,15 +11,26 @@ import SwiftUI
 struct ToDoListApp: App {
     
     @StateObject var listViewModel: ListViewModel = ListViewModel()
+    @StateObject var imageViewModel: ImageViewModel = ImageViewModel()
+    @State private var willMoveToNextScreen = false
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
-//                ListView()
-//                InspectorSidebarToolbarTop()
-                ListMoveAndDelete()
+
+                VStack(spacing: 20.0) {
+                    NavigationLink(destination: ListMoveAndDelete(), label: {Text("ListMoveAndDelete 🤓")})
+                    NavigationLink("ListView SwiftUI 👾") { ListView() }
+                    NavigationLink(destination: InspectorSidebarToolbarTop(), label: {Text("InspectorSidebar 🤢")})
+                    NavigationLink(destination: MyColorList(), label: {Text("MyColorList 🏳️‍🌈")})
+                    NavigationLink(destination: MyImageListSwiftUI(), label: {Text("ImageCollection 🌄")})
+                }
+                .font(.largeTitle)
+                
             }
             .environmentObject(listViewModel)
+            .environmentObject(imageViewModel)
+            .navigationTitle("App")
         }
     }
 }

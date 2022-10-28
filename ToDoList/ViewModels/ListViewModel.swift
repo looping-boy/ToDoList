@@ -23,13 +23,13 @@ class ListViewModel : ObservableObject {
     
     func getItems() {
         
-        let newItems = [
-            ItemModel(title: "doc", isCompleted: false),
-            ItemModel(title: "clock", isCompleted: true),
-            ItemModel(title: "questionmark.circle", isCompleted: false),
-        ]
-        
-        self.items = newItems
+//        let newItems = [
+//            ItemModel(title: "doc", isCompleted: false),
+//            ItemModel(title: "clock", isCompleted: true),
+//            ItemModel(title: "questionmark.circle", isCompleted: false),
+//        ]
+//        
+//        self.items = newItems
         
         guard
             let data = UserDefaults.standard.data(forKey: ITEMS_KEY),
@@ -42,6 +42,10 @@ class ListViewModel : ObservableObject {
     
     func deleteItem(indexSet: IndexSet) {
         items.remove(atOffsets: indexSet)
+    }
+    
+    func deleteItem2() {
+        items.remove(at: 0)
     }
     
     func moveItem(from: IndexSet, to: Int) {

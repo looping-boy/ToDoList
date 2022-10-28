@@ -41,18 +41,20 @@ struct ListView: View {
     
     var body: some View {
         
-        ZStack {
+        NavigationView {
             
-            LinearGradient(gradient: Gradient(colors: [Color.red, Color.purple]), startPoint: .top, endPoint: .bottom)
-                .edgesIgnoringSafeArea(.vertical)
-                .opacity(0.4)
-            
-            VStack {
+            ZStack {
                 
-                List {
+                LinearGradient(gradient: Gradient(colors: [Color.red, Color.purple]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.vertical)
+                    .opacity(0.4)
+                
+                VStack {
                     
-                        ForEach($listViewModel.items) { $item in
-                            ListRowView(item: $item)
+                    List {
+                        
+                        ForEach(listViewModel.items) { item in
+                            ListRowView(item: item)
                                 .onTapGesture {
                                     withAnimation(.linear) {
                                         listViewModel.updateItem(item: item)
@@ -66,6 +68,9 @@ struct ListView: View {
                                 .onDrop(of: [UTType.text], delegate: DragDelegate(current: $dragging)
                                 )
                                 .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 25, style: .circular))
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                             
                         }
                         .onDelete(perform: listViewModel.deleteItem)
@@ -76,75 +81,65 @@ struct ListView: View {
                                 print("swip")
                             }
                         }))
-                    
-                    
-                    
-                    
-//                    Button {
-//                        withAnimation(.easeInOut(duration: 1)) {
-//                            //                        item.animatingButton.toggle()
-//                        }
-//                    } label : {
-//
-//                    }
-                    
-                    ZStack {
+                        .listStyle(PlainListStyle())
                         
-                        Circle()
-                            .foregroundColor(.white)
-                            .frame(width:55,
-                                   height: 55
-                            )
-                            .opacity(0.1)
-                            .shadow(radius: 7)
+                        ZStack {
+                            
+                            Circle()
+                                .foregroundColor(.white)
+                                .frame(width:55,
+                                       height: 55
+                                )
+                                .opacity(0.1)
+                                .shadow(radius: 7)
+                            
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:
+                                        55,
+                                       height: 55)
+                                .foregroundColor(color2)
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                        .background(animatingButton ? Color.red : Color.yellow)
+                        .onTapGesture(perform: addItem)
+                        .onAppear {
+                            animatingButton.toggle()
+                        }
+                        .animation(Animation.easeInOut(duration: 1).delay(2).speed(1).repeatCount(1, autoreverses: true))
+                        //.opacity(animatingButton ? 1 : 0)
                         
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:
-                                    55,
-                                   height: 55)
-                            .foregroundColor(color2)
+                        
+                        
+                        
+                        
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .background(animatingButton ? Color.red : Color.yellow)
-                    .onTapGesture(perform: addItem)
-                    .onAppear {
-                        animatingButton.toggle()
-                    }
-                    .animation(Animation.easeInOut(duration: 1).delay(2).speed(1).repeatCount(1, autoreverses: true))
-                    //.opacity(animatingButton ? 1 : 0)
+                    .environment(\.editMode, Binding.constant(EditMode.inactive))
+                    .deleteDisabled(true)
+                    .background(Color.clear)
+                    .listStyle(PlainListStyle())
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     
                     
                     
                     
                 }
-                .environment(\.editMode, Binding.constant(EditMode.inactive))
-                .deleteDisabled(true)
-                .background(Color.clear)
-                .listStyle(PlainListStyle())
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                .navigationBarItems(
+                    leading: EditButton(),
+                    trailing:
+                        NavigationLink("Add", destination: AddView())
+                )
                 
             }
-            .navigationTitle("Todo List📝")
-            .navigationBarItems(
-                leading: EditButton(),
-                trailing:
-                    NavigationLink("Add", destination: AddView())
-            )
-            
-        }
+        }.navigationTitle("ListView")
         
     }
     

@@ -13,20 +13,7 @@ struct AnimalModel: Identifiable {
     var name: String
 }
 
-struct MyColorList: UIViewControllerRepresentable {
-    typealias UIViewControllerType = ViewController
-    
-    func makeUIViewController(context: Context) -> ViewController {
-        let vc = ViewController()
-        // Do some configurations here if needed.
-        return vc
-    }
-    
-    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
-        // Updates the state of the specified view controller with new information from SwiftUI.
-    }
-    
-}
+
 
 struct ListMoveAndDelete: View{
     
@@ -34,64 +21,89 @@ struct ListMoveAndDelete: View{
     
     @EnvironmentObject var listViewModel: ListViewModel
     
-    var numbers = [0, 1, 2]
+    private func addListElement() {
+        listViewModel.addItem(title: "Hello")
+        var itemChange = listViewModel.items[0]
+        itemChange.title = "helloeoae"
+        listViewModel.updateItem(item: itemChange)
+    }
+    
+    private func delete() {
+        listViewModel.deleteItem2()
+    }
+    
     var body: some View {
-        
-        ZStack {
-            
-//            MyColorList()
-            
-            LinearGradient(gradient: Gradient(colors: [Color.red, Color.purple]), startPoint: .top, endPoint: .bottom)
-                .edgesIgnoringSafeArea(.vertical)
-                .opacity(0.4)
+        NavigationView {
+            ZStack {
+                
+                //            MyColorList()
+                
+                LinearGradient(gradient: Gradient(colors: [Color.red, Color.purple]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.vertical)
+                    .opacity(0.4)
+                
+                
+                VStack {
+                    
+                    GeometryReader { proxy in
+                        GridView(listViewModel.items, proxy: proxy) { item in
+                            //                    Image("image\(number)")
+                            //                    .resizable()
+                            //                    .scaledToFit()
+                            ListRowView(item: item)
+                            
+                        }
+                        .onTapGesture {
+                            listViewModel.deleteItem2()
+                        }
                         
-            GeometryReader { proxy in
-                GridView(self.numbers, proxy: proxy) { number in
-                    //                    Image("image\(number)")
-                    //                    .resizable()
-                    //                    .scaledToFit()
-                    ListRowView(item: $listViewModel.items[number])
-                       
+                        
+                        
+                    }
+                    
+                    Button(action: { addListElement() },label: { Text("Add") } ).padding(20).font(.title)
+                    Button(action: { delete() },label: { Text("Delete") } ).padding(20).font(.title)
                 }
-        
+                
             }
-            
         }
+        .navigationTitle("ListMoveAndDelete")
+        
     }
 }
 
 
 
 
-struct GridView<CellView: View>: UIViewRepresentable {
-    let cellView: (Int) -> CellView
+struct GridView<CellView: View>: UIViewRepresentable, View {
+    let cellView: (ItemModel) -> CellView
     let proxy: GeometryProxy
-    var numbers: [Int]
+    var items: [ItemModel]
     
-    init(_ numbers: [Int], proxy: GeometryProxy, @ViewBuilder cellView: @escaping (Int) -> CellView) {
+    init(_ items: [ItemModel], proxy: GeometryProxy, @ViewBuilder cellView: @escaping (ItemModel) -> CellView) {
         self.proxy = proxy
         self.cellView = cellView
-        self.numbers = numbers
+        self.items = items
     }
     
     func makeUIView(context: Context) -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
-//        layout.minimumLineSpacing = 0
-//        layout.minimumInteritemSpacing = 0
+        //        layout.minimumLineSpacing = 0
+        //        layout.minimumInteritemSpacing = 0
         
         let collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: layout)
-//        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
+        //        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
         //collectionView.backgroundView = nil // LOOP : Added
         
         collectionView.register(GridCellView.self, forCellWithReuseIdentifier: "CELL")
         
         collectionView.dragDelegate = context.coordinator //to drag cell view
         collectionView.dropDelegate = context.coordinator //to drop cell view
-    
+        
         collectionView.dragInteractionEnabled = true
         collectionView.dataSource = context.coordinator
         collectionView.delegate = context.coordinator
-//        collectionView.contentInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        //        collectionView.contentInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         return collectionView
     }
     
@@ -109,13 +121,13 @@ struct GridView<CellView: View>: UIViewRepresentable {
         }
         
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return parent.numbers.count
+            return parent.items.count
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CELL", for: indexPath) as! GridCellView
             cell.backgroundColor = .clear
-            cell.cellView.rootView = AnyView(parent.cellView(parent.numbers[indexPath.row]).fixedSize())
+            cell.cellView.rootView = AnyView(parent.cellView(parent.items[indexPath.row]).fixedSize())
             return cell
         }
         
@@ -141,8 +153,8 @@ struct GridView<CellView: View>: UIViewRepresentable {
         
         //Provides the initial set of items (if any) to drag.
         func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-            let item = self.parent.numbers[indexPath.row]
-            let itemProvider = NSItemProvider(object: String(item) as NSString)
+            let item = self.parent.items[indexPath.row]
+            let itemProvider = NSItemProvider() //Loop Erased a part ov it
             let dragItem = UIDragItem(itemProvider: itemProvider)
             dragItem.localObject = item
             return [dragItem]
@@ -173,8 +185,8 @@ struct GridView<CellView: View>: UIViewRepresentable {
         private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
             if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
                 collectionView.performBatchUpdates({
-                    self.parent.numbers.remove(at: sourceIndexPath.item)
-                    self.parent.numbers.insert(item.dragItem.localObject as! Int, at: destinationIndexPath.item)
+                    self.parent.items.remove(at: sourceIndexPath.item)
+                    self.parent.items.insert(item.dragItem.localObject as! ItemModel, at: destinationIndexPath.item)
                     collectionView.deleteItems(at: [sourceIndexPath])
                     collectionView.insertItems(at: [destinationIndexPath])
                 }, completion: nil)
@@ -208,16 +220,16 @@ class GridCellView: UICollectionViewCell {
             cellView.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             cellView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0),
         ])
-        layer.shadowColor = UIColor.white.cgColor
+        layer.shadowColor = UIColor.clear.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = 0
         layer.shadowOpacity = 0
         layer.masksToBounds = false
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: contentView.layer.cornerRadius).cgPath
-        layer.backgroundColor = UIColor.white.cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
         contentView.layer.masksToBounds = true
         layer.cornerRadius = 25
-
+        
         cellView.view.layer.masksToBounds = true
         cellView.view.backgroundColor = .clear
     }

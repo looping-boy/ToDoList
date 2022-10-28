@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CollectionColorList: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private var collectionView: UICollectionView?
     
@@ -35,26 +35,27 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         collectionView?.delegate = self
         collectionView?.dataSource = self
         collectionView?.backgroundColor = .white
-        //view.addSubview(collectionView!)
+        
+        view.addSubview(collectionView!)
         
         
-        struct ContentView : View {
-            var body: some View {
-                VStack {
-                    Text("Test")
-                    Text("Test2")
-
-                }
-            }
-        }
-        var child = UIHostingController(rootView: ContentView())
-        var parent = UIViewController()
-        child.view.translatesAutoresizingMaskIntoConstraints = false
-        child.view.frame = parent.view.bounds
-        // First, add the view of the child to the view of the parent
-        view.addSubview(child.view)
-        // Then, add the child to the parent
-        //view.addChild(child)
+//        struct ContentView : View {
+//            var body: some View {
+//                VStack {
+//                    Text("Test")
+//                    Text("Test2")
+//
+//                }
+//            }
+//        }
+//        var child = UIHostingController(rootView: ContentView())
+//        var parent = UIViewController()
+//        child.view.translatesAutoresizingMaskIntoConstraints = false
+//        child.view.frame = parent.view.bounds
+//        // First, add the view of the child to the view of the parent
+//        view.addSubview(child.view)
+//        // Then, add the child to the parent
+//        //view.addChild(child)
         
         
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
