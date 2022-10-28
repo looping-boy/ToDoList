@@ -34,7 +34,7 @@ struct ListMoveAndDelete: View{
     
     @EnvironmentObject var listViewModel: ListViewModel
     
-    var numbers = [1, 2]
+    var numbers = [0, 1, 2]
     var body: some View {
         
         ZStack {
@@ -80,7 +80,7 @@ struct GridView<CellView: View>: UIViewRepresentable {
 //        layout.minimumInteritemSpacing = 0
         
         let collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
+//        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
         //collectionView.backgroundView = nil // LOOP : Added
         
         collectionView.register(GridCellView.self, forCellWithReuseIdentifier: "CELL")
@@ -91,7 +91,7 @@ struct GridView<CellView: View>: UIViewRepresentable {
         collectionView.dragInteractionEnabled = true
         collectionView.dataSource = context.coordinator
         collectionView.delegate = context.coordinator
-        collectionView.contentInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+//        collectionView.contentInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         return collectionView
     }
     
@@ -120,7 +120,7 @@ struct GridView<CellView: View>: UIViewRepresentable {
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: (parent.proxy.frame(in: .global).width), height: ((parent.proxy.frame(in: .global).width - 8) / 5))
+            return CGSize(width: 350, height: 55)
         }
         
         // LOOP : Remove the white background when is moving, added guard for cell and
@@ -203,25 +203,23 @@ class GridCellView: UICollectionViewCell {
         contentView.addSubview(cellView.view)
         cellView.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            cellView.view.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
-            cellView.view.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
-            cellView.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            cellView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            cellView.view.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
+            cellView.view.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -0),
+            cellView.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            cellView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0),
         ])
+        layer.shadowColor = UIColor.white.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 0
+        layer.shadowOpacity = 0
+        layer.masksToBounds = false
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: contentView.layer.cornerRadius).cgPath
+        layer.backgroundColor = UIColor.white.cgColor
+        contentView.layer.masksToBounds = true
+        layer.cornerRadius = 25
+
         cellView.view.layer.masksToBounds = true
         cellView.view.backgroundColor = .clear
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("hello")
-    }
-    
-    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        print("hello")
-    }
-    
-    override func endEditing(_ force: Bool) -> Bool {
-        return true
     }
     
     // LOOP : Remove the translusent cell that stays when moving

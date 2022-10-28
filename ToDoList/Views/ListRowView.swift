@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ListRowView: View {
     
-    @State var scale = 1.0
-    
     @Binding var item: ItemModel
     
     @EnvironmentObject var listViewModel: ListViewModel
@@ -22,57 +20,37 @@ struct ListRowView: View {
     
     var body: some View {
         
-        
+        HStack {
             
-            HStack {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [color1, color2]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .opacity(0.7)
                 
-                ZStack {
-                    LinearGradient(gradient: Gradient(colors: [color1, color2]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                        .opacity(0.7)
-                
-                        HStack {
-                            Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
-                                .foregroundColor(item.isCompleted ? .green : .red)
-                                .onTapGesture(perform: updateCompletion)
-                            
-                            Spacer()
-                            
-                            TextField(item.title, text: $item.title)
-                                .keyboardType(.default)
-                                .multilineTextAlignment(.center)
-                                .frame(alignment: .trailing)
-                                .animation(Animation.easeInOut(duration: 1), value: scale)
-                                
-                        }
-                        .padding(.vertical, animatingButton ? 0 : 8)
-                        .padding(.horizontal, animatingButton ? 0 : 30)
-                        
+                HStack {
+                    Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
+                        .foregroundColor(item.isCompleted ? .green : .red)
+                        .onTapGesture(perform: updateCompletion)
+                    
+                    Spacer()
+                    
+                    TextField(item.title, text: $item.title)
+                        .keyboardType(.default)
+                        .multilineTextAlignment(.center)
+                        .frame(alignment: .trailing)
                     
                 }
-                .cornerRadius(25)
-                .font(.title2)
-                .frame(height: 55)
-                .shadow(radius: 7)
+                .padding(.vertical, animatingButton ? 0 : 8)
+                .padding(.horizontal, animatingButton ? 0 : 30)
                 
             }
-            .frame(width: 350)
-            //        .opacity(animatingButton ? 0 : 1)
-            //        .animation(Animation.easeInOut(duration: 1).speed(1))
-            //        .onAppear {
-            //            animatingButton.toggle()
-            //        }
-        
-        
+            .cornerRadius(25)
+            .font(.title2)
+            .frame(height: 55)
+            
+        }
+        .frame(width: 350)
     }
-//        .offset(x: isToggle ? -0 : 0)
-//        .rotationEffect(.degrees(isToggle ? 0 : 2.5))
-//        .rotation3DEffect(.degrees(5), axis: (x: 0, y: -5, z: 0))
-//    //                            .animation( Animation.easeInOut(duration: 0.2).repeatForever(autoreverses: true))
-    
-    
-    //                    withAnimation(.easeInOut(duration: 1)) {
-    ////                        item.animatingButton.toggle()
-    
+
     func updateCompletion() {
         listViewModel.updateItemComplete(item: item)
     }
