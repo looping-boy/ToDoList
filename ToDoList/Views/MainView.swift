@@ -9,12 +9,25 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+                    ListView()
+                
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        NavigationView() {
+            MainView()
+        }
+        
+    }
+}
+
+struct BackgroundColorStyle: ViewModifier {
+
+    func body(content: Content) -> some View {
+        return content
+            .background(Color.orange)
     }
 }
