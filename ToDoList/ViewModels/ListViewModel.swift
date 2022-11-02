@@ -15,6 +15,8 @@ class ListViewModel : ObservableObject {
         }
     }
     
+    static let shared = ListViewModel()
+    
     let ITEMS_KEY: String = "items_list"
     
     init() {

@@ -26,6 +26,8 @@
 		84CAE253290C42F20069AFED /* UIMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CAE252290C42F20069AFED /* UIMakers.swift */; };
 		84CAE255290C46B50069AFED /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CAE254290C46B50069AFED /* CustomData.swift */; };
 		84CAE257290C46E80069AFED /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CAE256290C46E80069AFED /* ImageViewModel.swift */; };
+		84DCEC2029100A66009F5D09 /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84DCEC1F29100A66009F5D09 /* SwipeCellKit */; };
+		84DCEC232910192E009F5D09 /* TodoListCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DCEC222910192E009F5D09 /* TodoListCollection.swift */; };
 		84E296A22908231B00A81F54 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E296A12908231B00A81F54 /* ListViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,7 @@
 		84CAE252290C42F20069AFED /* UIMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMakers.swift; sourceTree = "<group>"; };
 		84CAE254290C46B50069AFED /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
 		84CAE256290C46E80069AFED /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
+		84DCEC222910192E009F5D09 /* TodoListCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListCollection.swift; sourceTree = "<group>"; };
 		84E2969F29081CA900A81F54 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84E296A12908231B00A81F54 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84DCEC2029100A66009F5D09 /* SwipeCellKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +174,7 @@
 				84AC63A3290B1619005400BD /* CollectionColorList.swift */,
 				84CAE250290C3FF60069AFED /* ImageCollection.swift */,
 				84CAE252290C42F20069AFED /* UIMakers.swift */,
+				84DCEC222910192E009F5D09 /* TodoListCollection.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -208,6 +213,9 @@
 			dependencies = (
 			);
 			name = ToDoList;
+			packageProductDependencies = (
+				84DCEC1F29100A66009F5D09 /* SwipeCellKit */,
+			);
 			productName = ToDoList;
 			productReference = 849D67822902F279000C73B3 /* ToDoList.app */;
 			productType = "com.apple.product-type.application";
@@ -280,6 +288,9 @@
 				Base,
 			);
 			mainGroup = 849D67792902F279000C73B3;
+			packageReferences = (
+				84DCEC1E29100A66009F5D09 /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
+			);
 			productRefGroup = 849D67832902F279000C73B3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -333,6 +344,7 @@
 				849D67B129067FA5000C73B3 /* ListView.swift in Sources */,
 				84CAE253290C42F20069AFED /* UIMakers.swift in Sources */,
 				849D67862902F279000C73B3 /* ToDoListApp.swift in Sources */,
+				84DCEC232910192E009F5D09 /* TodoListCollection.swift in Sources */,
 				84AC639E290AB131005400BD /* InspectorSidebarToolbarTop.swift in Sources */,
 				84AC63A0290ACF8F005400BD /* ListRowViewDelegate.swift in Sources */,
 				849D67B32906B52B000C73B3 /* ListRowView.swift in Sources */,
@@ -667,6 +679,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		84DCEC1E29100A66009F5D09 /* XCRemoteSwiftPackageReference "SwipeCellKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwipeCellKit/SwipeCellKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		84DCEC1F29100A66009F5D09 /* SwipeCellKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84DCEC1E29100A66009F5D09 /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
+			productName = SwipeCellKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 849D677A2902F279000C73B3 /* Project object */;
 }

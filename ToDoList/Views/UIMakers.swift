@@ -67,3 +67,53 @@ struct MyImageListSwiftUI: View {
             imageViewModel.deleteItem2()
         }
 }
+
+
+class Global: ObservableObject
+{
+    static let shared = Global()
+
+    @Published var datas = [
+        CustomData(title: "The Islands!", url: "maxcodes.io/enroll", backgroundImage: #imageLiteral(resourceName: "image8")),
+        CustomData(title: "Subscribe to maxcodes boiiii!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image7")),
+        CustomData(title: "StoreKit Course!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image1")),
+        CustomData(title: "Collection Views!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image3")),
+        CustomData(title: "MapKit!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image4")),
+    ]
+}
+
+
+
+
+
+
+struct ToDoListMaker: View {
+
+    var body: some View {
+        
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.red, Color.purple]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.vertical)
+                .opacity(0.4)
+            MyTodoListCollectionHelper()
+        }
+        
+        
+    }
+
+}
+
+
+struct MyTodoListCollectionHelper : UIViewControllerRepresentable {
+    typealias UIViewControllerType = TodoListCollection
+    
+    func makeUIViewController(context: Context) -> TodoListCollection {
+        let vc = TodoListCollection()
+        // Do some configurations here if needed.
+        return vc
+    }
+    
+    func updateUIViewController(_ uiViewController: TodoListCollection, context: Context) {
+        // Updates the state of the specified view controller with new information from SwiftUI.
+    }
+}

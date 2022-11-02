@@ -15,7 +15,7 @@ struct AnimalModel: Identifiable {
 
 
 
-struct ListMoveAndDelete: View{
+struct ListMoveAndDelete: View {
     
     //@Binding var item = ItemModel(title: "questionmark.circle", isCompleted: false)
     

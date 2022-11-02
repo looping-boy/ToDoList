@@ -7,6 +7,7 @@
 //
 import SwiftUI
 import UIKit
+import SwipeCellKit
 
 protocol DataCollectionProtocol {
     func passData()
@@ -14,9 +15,11 @@ protocol DataCollectionProtocol {
 }
 
 
-class ImageCollection: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class ImageCollection: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, SwipeCollectionViewCellDelegate {
     
-   var imageViewModel: ImageViewModel = ImageViewModel(title: "raze")
+//   var imageViewModel: ImageViewModel = ImageViewModel(title: "raze")
+    @Published var mode = 1
+    let global = Global.shared
 
     required init?(coder aDecoder: NSCoder) {
             super.init(coder: aDecoder)
@@ -24,7 +27,7 @@ class ImageCollection: UIViewController, UICollectionViewDelegate, UICollectionV
 
     init(imageViewModel: ImageViewModel) {
             super.init(nibName: nil, bundle: nil)
-        self.imageViewModel = imageViewModel
+//        self.imageViewModel = imageViewModel
         }
     
     fileprivate let collectionView: UICollectionView = {
@@ -75,35 +78,72 @@ class ImageCollection: UIViewController, UICollectionViewDelegate, UICollectionV
         collectionView.frame = view.bounds
     }
     
-    
-    
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageViewModel.items.count
+        return global.datas.count
     }
     
+    
+    
+    
+    
     // Added by looping :
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
+//        cell.data = self.global.datas[indexPath.item]
+//        return cell
+//    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-        cell.data = self.imageViewModel.items[indexPath.item]
+        cell.delegate = self
+        cell.data = self.global.datas[indexPath.item]
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete")
+
+        return [deleteAction]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        options.transitionStyle = .border
+        return options
+    }
+
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let item = imageViewModel.items.remove(at: sourceIndexPath.row)
-        imageViewModel.items.insert(item, at: destinationIndexPath.row)
+        let item = global.datas.remove(at: sourceIndexPath.row)
+        global.datas.insert(item, at: destinationIndexPath.row)
+    }
+    
+    // Looping on click delete
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        global.datas.remove(at: indexPath.row)
+//        collectionView.reloadData()
     }
     
     
     
-    class CustomCell: UICollectionViewCell {
+    class CustomCell: SwipeCollectionViewCell {
         
         var data: CustomData? {
             didSet {
@@ -111,6 +151,8 @@ class ImageCollection: UIViewController, UICollectionViewDelegate, UICollectionV
                 bg.image = data.backgroundImage
             }
         }
+        
+        
         
         fileprivate let bg: UIImageView = {
             let iv = UIImageView()
