@@ -25,13 +25,17 @@ class ListViewModel : ObservableObject {
     
     func getItems() {
         
-//        let newItems = [
-//            ItemModel(title: "doc", isCompleted: false),
-//            ItemModel(title: "clock", isCompleted: true),
-//            ItemModel(title: "questionmark.circle", isCompleted: false),
-//        ]
-//        
-//        self.items = newItems
+        let newItems = [
+            ItemModel(title: "Guillaume Lotis", isCompleted: false),
+            ItemModel(title: "Emilie Lotis", isCompleted: true),
+            ItemModel(title: "Jules Antoine Guy Lotis", isCompleted: false),
+            ItemModel(title: "Catherine Olléon", isCompleted: false),
+            ItemModel(title: "Gilles Blanc", isCompleted: false),
+            ItemModel(title: "Stanford Lelandais", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+        ]
+
+        self.items = newItems
         
         guard
             let data = UserDefaults.standard.data(forKey: ITEMS_KEY),

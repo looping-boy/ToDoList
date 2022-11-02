@@ -31,10 +31,10 @@ class TodoListCollection: UIViewController, UICollectionViewDelegate, SwipeColle
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
-//        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
-//        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
-//        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
-//        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+        //        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        //        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+        //        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+        //        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
         //        collectionView.heightAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
         
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
@@ -88,17 +88,27 @@ class TodoListCollection: UIViewController, UICollectionViewDelegate, SwipeColle
 
 extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 350, height: 55)
+        let width = view.frame.size.width
+        // in case you you want the cell to be 40% of your controllers view
+        return CGSize(width: width, height: 55)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return global.datas.count
+        return listViewModel.items.count
     }
     
     // Added by looping :
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SpecialCellView
+        
+        let delay = 0 + Double(indexPath.row) * 0.1
+        cell.alpha = 0
+        UIView.animate(withDuration: 2, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: ({
+            cell.alpha = 1
+        }), completion: nil)
+        
+        
         cell.delegate = self
-        cell.data = self.global.datas[indexPath.item]
+        cell.data = self.listViewModel.items[indexPath.item]
         return cell
     }
     
@@ -107,13 +117,13 @@ extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let item = global.datas.remove(at: sourceIndexPath.row)
-        global.datas.insert(item, at: destinationIndexPath.row)
+        let item = listViewModel.items.remove(at: sourceIndexPath.row)
+        listViewModel.items.insert(item, at: destinationIndexPath.row)
     }
     
     // Looping on click delete
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        global.datas.remove(at: indexPath.row)
+        listViewModel.items.remove(at: indexPath.row)
         collectionView.reloadData()
     }
 }
@@ -121,15 +131,17 @@ extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionVi
 struct ContentView : View {
     var textToDisplay : String
     var body: some View {
-        VStack {
-            ListRowView(item: ItemModel(title: textToDisplay, isCompleted: true))
+        HStack {
+//            Text("He")
+            ListRowView(item: ItemModel(title: textToDisplay, isCompleted: true)).padding(.horizontal, 20)
+            
         }
     }
 }
 
 class SpecialCellView: SwipeCollectionViewCell {
     
-    var data: CustomData? {
+    var data: ItemModel? {
         didSet {
             guard let data = data else { return }
             cellView.rootView.textToDisplay = data.title
