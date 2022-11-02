@@ -34,6 +34,7 @@ struct ToDoListApp: App {
             .environmentObject(listViewModel)
             .environmentObject(imageViewModel)
             .navigationTitle("App")
+            .preferredColorScheme(.light)
         }
     }
 }

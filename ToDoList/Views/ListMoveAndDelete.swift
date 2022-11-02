@@ -50,14 +50,12 @@ struct ListMoveAndDelete: View {
                             //                    Image("image\(number)")
                             //                    .resizable()
                             //                    .scaledToFit()
-                            ListRowView(item: item)
+                            ListRowView(item: item, row: 1)
                             
                         }
                         .onTapGesture {
                             listViewModel.deleteItem2()
                         }
-                        
-                        
                         
                     }
                     

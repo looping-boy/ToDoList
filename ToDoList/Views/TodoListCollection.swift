@@ -41,6 +41,35 @@ class TodoListCollection: UIViewController, UICollectionViewDelegate, SwipeColle
         collectionView.addGestureRecognizer(gesture)
     }
     
+//    private var cellCount = 0
+//
+//    func addCells(count: Int) {
+//        guard count > 0 else { return }
+//
+//        var alreadyAdded = 0
+//        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] t in
+//            guard let self = self else {
+//                t.invalidate()
+//                return
+//            }
+//
+//            self.cellCount += 1
+//
+//            let indexPath = IndexPath(row: self.cellCount - 1, section: 0)
+//            self.collectionView.insertItems(at: [indexPath])
+//
+//            alreadyAdded += 1
+//            if alreadyAdded == count {
+//                t.invalidate()
+//            }
+//        }
+//    }
+//
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        addCells(count: 3)
+//    }
+    
     @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
         
         switch gesture.state {
@@ -100,15 +129,16 @@ extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SpecialCellView
         
-        let delay = 0 + Double(indexPath.row) * 0.1
-        cell.alpha = 0
-        UIView.animate(withDuration: 2, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: ({
-            cell.alpha = 1
-        }), completion: nil)
+//        let delay = 0 + Double(indexPath.row) * 0.1
+//        cell.alpha = 0
+//        UIView.animate(withDuration: 2, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: ({
+//            cell.alpha = 1
+//        }), completion: nil)
         
         
         cell.delegate = self
         cell.data = self.listViewModel.items[indexPath.item]
+        cell.delay = Double(indexPath.row) + 1
         return cell
     }
     
@@ -126,14 +156,23 @@ extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionVi
         listViewModel.items.remove(at: indexPath.row)
         collectionView.reloadData()
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        cell.alpha = 0
+//
+//               UIView.animate(withDuration: 2, delay: 1*Double(indexPath.row),animations: {
+//                   cell.alpha = 1
+//               })
+//    }
 }
 
 struct ContentView : View {
     var textToDisplay : String
+    var delay : Double
     var body: some View {
         HStack {
 //            Text("He")
-            ListRowView(item: ItemModel(title: textToDisplay, isCompleted: true)).padding(.horizontal, 20)
+            ListRowView(item: ItemModel(title: textToDisplay, isCompleted: true), row: delay).padding(.horizontal, 20)
             
         }
     }
@@ -148,7 +187,14 @@ class SpecialCellView: SwipeCollectionViewCell {
         }
     }
     
-    public var cellView = UIHostingController(rootView: ContentView(textToDisplay: "helo"))
+    var delay: Double? {
+        didSet {
+            guard let delay = delay else { return }
+            cellView.rootView.delay = delay
+        }
+    }
+    
+    public var cellView = UIHostingController(rootView: ContentView(textToDisplay: "hello", delay: 1))
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

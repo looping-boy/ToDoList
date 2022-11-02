@@ -12,8 +12,10 @@ struct ListRowView: View {
     @State var width: CGFloat = 50
     @State var horizontal: CGFloat = 0
     @State var gradient: CGFloat = 0
+    @State var opacity: CGFloat = 0
     
     var item: ItemModel
+    var row: Double
     
     @EnvironmentObject var listViewModel: ListViewModel
     
@@ -37,7 +39,7 @@ struct ListRowView: View {
                         Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
                             .foregroundColor(item.isCompleted ? .green : .red)
                         //                        .onTapGesture(perform: updateCompletion)
-                            .frame(maxWidth: 35, alignment: .leading)
+                            .frame(maxWidth: 28, alignment: .leading)
                         
                         Text(item.title)
                             .keyboardType(.default)
@@ -57,21 +59,25 @@ struct ListRowView: View {
                 .cornerRadius(25)
                 .font(.title2)
                 .frame(height: 50)
-//                .padding(.horizontal, 10)
-                
             }
             .frame(width: width)
+            .opacity(opacity)
             .onAppear {
-                let animation1 = Animation.easeInOut(duration: 1).repeatCount(1).speed(1)
-                let animation2 = Animation.easeInOut(duration: 1).repeatCount(1).speed(0.7)
+                let animation1 = Animation.easeInOut(duration: 1).speed(4).delay(row * 0.05)
+                let animation2 = Animation.easeInOut(duration: 1).speed(28).delay(row * 0.05)
+                let animation3 = Animation.easeInOut(duration: 1).speed(2).delay(row * 0.05)
                 
                 withAnimation(animation1) {
                     width = .infinity
-                    horizontal = 30
+                    horizontal = 20
                 }
                 
                 withAnimation(animation2) {
                     gradient = 2
+                }
+                
+                withAnimation(animation3) {
+                    opacity = 1
                 }
             }
         }
@@ -99,7 +105,7 @@ struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
 //            ListRowView(item: .constant(item1))
-            ListRowView(item: item2)
+            ListRowView(item: item2, row: 1)
         }
     }
 }
