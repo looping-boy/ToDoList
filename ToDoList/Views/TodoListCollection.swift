@@ -26,8 +26,8 @@ class TodoListCollection: UIViewController, UICollectionViewDelegate, SwipeColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubview(collectionView)
+        
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -118,7 +118,6 @@ class TodoListCollection: UIViewController, UICollectionViewDelegate, SwipeColle
 extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.size.width
-        // in case you you want the cell to be 40% of your controllers view
         return CGSize(width: width, height: 55)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -128,13 +127,6 @@ extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionVi
     // Added by looping :
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SpecialCellView
-        
-//        let delay = 0 + Double(indexPath.row) * 0.1
-//        cell.alpha = 0
-//        UIView.animate(withDuration: 2, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: ({
-//            cell.alpha = 1
-//        }), completion: nil)
-        
         
         cell.delegate = self
         cell.data = self.listViewModel.items[indexPath.item]
@@ -152,27 +144,21 @@ extension TodoListCollection: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     // Looping on click delete
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        listViewModel.items.remove(at: indexPath.row)
-        collectionView.reloadData()
-    }
-    
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        cell.alpha = 0
-//
-//               UIView.animate(withDuration: 2, delay: 1*Double(indexPath.row),animations: {
-//                   cell.alpha = 1
-//               })
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        listViewModel.items.remove(at: indexPath.row)
+//        collectionView.reloadData()
 //    }
+    
 }
 
 struct ContentView : View {
     var textToDisplay : String
     var delay : Double
+    @Binding var picked: String
     var body: some View {
         HStack {
 //            Text("He")
-            ListRowView(item: ItemModel(title: textToDisplay, isCompleted: true), row: delay).padding(.horizontal, 20)
+            ListRowViewEdit(item: ItemModel(title: textToDisplay, isCompleted: true), row: delay, picked: $picked).padding(.horizontal, 20)
             
         }
     }
@@ -194,7 +180,7 @@ class SpecialCellView: SwipeCollectionViewCell {
         }
     }
     
-    public var cellView = UIHostingController(rootView: ContentView(textToDisplay: "hello", delay: 1))
+    public var cellView = UIHostingController(rootView: ContentView(textToDisplay: "hello", delay: 1, picked: .constant("hello")))
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -202,32 +188,33 @@ class SpecialCellView: SwipeCollectionViewCell {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configure()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func configure() {
         contentView.addSubview(cellView.view)
-        cellView.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            cellView.view.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
-            cellView.view.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -0),
-            cellView.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            cellView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0),
-        ])
-        layer.shadowColor = UIColor.clear.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowRadius = 0
-        layer.shadowOpacity = 0
-        layer.masksToBounds = false
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: contentView.layer.cornerRadius).cgPath
-        layer.backgroundColor = UIColor.clear.cgColor
-        contentView.layer.masksToBounds = true
-        layer.cornerRadius = 25
-        cellView.view.clipsToBounds = true
         
-        cellView.view.layer.masksToBounds = true
-        cellView.view.backgroundColor = .clear
+        cellView.view.translatesAutoresizingMaskIntoConstraints = false
+        
+//        cellView.view.contentMode = .scaleAspectFill
+        cellView.view.clipsToBounds = false
+        cellView.view.layer.cornerRadius = 12
+        cellView.view.layer.masksToBounds = false
+        cellView.view.layer.backgroundColor = UIColor.clear.cgColor
+//        cellView.view.backgroundColor = .clear
+        
+        cellView.view.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        cellView.view.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        cellView.view.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        cellView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+//        for view in subviews {
+//                view.removeFromSuperview()
+//            }
     }
     
     // LOOP : Remove the translusent cell that stays when moving

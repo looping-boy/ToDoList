@@ -33,6 +33,16 @@ class ListViewModel : ObservableObject {
             ItemModel(title: "Gilles Blanc", isCompleted: false),
             ItemModel(title: "Stanford Lelandais", isCompleted: false),
             ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
+            ItemModel(title: "Nolwenn Guillemot", isCompleted: false),
         ]
 
         self.items = newItems

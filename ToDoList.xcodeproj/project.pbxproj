@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		841309C329336C3C00A90256 /* ListRowViewEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841309C229336C3C00A90256 /* ListRowViewEdit.swift */; };
 		845BD0DD290929AE00E05833 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845BD0DC290929AE00E05833 /* LaunchScreen.storyboard */; };
 		849D67862902F279000C73B3 /* ToDoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849D67852902F279000C73B3 /* ToDoListApp.swift */; };
 		849D678A2902F27A000C73B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 849D67892902F27A000C73B3 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		84CAE253290C42F20069AFED /* UIMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CAE252290C42F20069AFED /* UIMakers.swift */; };
 		84CAE255290C46B50069AFED /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CAE254290C46B50069AFED /* CustomData.swift */; };
 		84CAE257290C46E80069AFED /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CAE256290C46E80069AFED /* ImageViewModel.swift */; };
+		84D9980D29150FB00009A28C /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D9980C29150FB00009A28C /* Test.swift */; };
 		84DCEC2029100A66009F5D09 /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84DCEC1F29100A66009F5D09 /* SwipeCellKit */; };
 		84DCEC232910192E009F5D09 /* TodoListCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DCEC222910192E009F5D09 /* TodoListCollection.swift */; };
 		84E296A22908231B00A81F54 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E296A12908231B00A81F54 /* ListViewModel.swift */; };
@@ -49,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		841309C229336C3C00A90256 /* ListRowViewEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowViewEdit.swift; sourceTree = "<group>"; };
 		845BD0DC290929AE00E05833 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		849D67822902F279000C73B3 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849D67852902F279000C73B3 /* ToDoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListApp.swift; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 		84CAE252290C42F20069AFED /* UIMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMakers.swift; sourceTree = "<group>"; };
 		84CAE254290C46B50069AFED /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
 		84CAE256290C46E80069AFED /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
+		84D9980C29150FB00009A28C /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		84DCEC222910192E009F5D09 /* TodoListCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListCollection.swift; sourceTree = "<group>"; };
 		84E2969F29081CA900A81F54 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84E296A12908231B00A81F54 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 				849D67AF29067F91000C73B3 /* Views */,
 				849D67892902F27A000C73B3 /* Assets.xcassets */,
 				849D678B2902F27A000C73B3 /* Preview Content */,
+				84D9980C29150FB00009A28C /* Test.swift */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -177,6 +182,7 @@
 				84CAE250290C3FF60069AFED /* ImageCollection.swift */,
 				84CAE252290C42F20069AFED /* UIMakers.swift */,
 				84DCEC222910192E009F5D09 /* TodoListCollection.swift */,
+				841309C229336C3C00A90256 /* ListRowViewEdit.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -341,11 +347,13 @@
 				84AC63A4290B1619005400BD /* CollectionColorList.swift in Sources */,
 				84CAE251290C3FF60069AFED /* ImageCollection.swift in Sources */,
 				84CAE255290C46B50069AFED /* CustomData.swift in Sources */,
+				84D9980D29150FB00009A28C /* Test.swift in Sources */,
 				84E296A22908231B00A81F54 /* ListViewModel.swift in Sources */,
 				849D67B52906BBFB000C73B3 /* AddView.swift in Sources */,
 				849D67B129067FA5000C73B3 /* ListView.swift in Sources */,
 				84CAE253290C42F20069AFED /* UIMakers.swift in Sources */,
 				849D67862902F279000C73B3 /* ToDoListApp.swift in Sources */,
+				841309C329336C3C00A90256 /* ListRowViewEdit.swift in Sources */,
 				84DCEC232910192E009F5D09 /* TodoListCollection.swift in Sources */,
 				84AC639E290AB131005400BD /* InspectorSidebarToolbarTop.swift in Sources */,
 				84AC63A0290ACF8F005400BD /* ListRowViewDelegate.swift in Sources */,

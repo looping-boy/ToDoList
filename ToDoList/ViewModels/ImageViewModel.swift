@@ -36,7 +36,11 @@ class ImageViewModel : ObservableObject {
             CustomData(title: "Subscribe to maxcodes boiiii!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image7")),
             CustomData(title: "StoreKit Course!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image1")),
             CustomData(title: "Collection Views!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image3")),
-            CustomData(title: "MapKit!", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image4")),
+            CustomData(title: "MapKit!gd", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image4")),
+            CustomData(title: "MapKit!dgfd", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image4")),
+            CustomData(title: "MapKit!dfgffg", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image4")),
+            CustomData(title: "MapKit!dfgfdgdfg", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image4")),
+            CustomData(title: "MapKit!dfgfdgf", url: "maxcodes.io/courses", backgroundImage: #imageLiteral(resourceName: "image4")),
         ]
         
         self.items = datas

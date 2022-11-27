@@ -1,5 +1,5 @@
 //
-//  ListRowView.swift
+//  ListRowViewEdit.swift
 //  ToDoList
 //
 //  Created by Guillaume Lotis on 24/10/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ListRowView: View {
+struct ListRowViewEdit: View {
     
     @State var width: CGFloat = 50
     @State var horizontal: CGFloat = 0
@@ -23,6 +23,10 @@ struct ListRowView: View {
     private let color1: Color = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
     
     @State private var animatingButton = false
+    
+    @State private var textEdit: String = ""
+    
+    @Binding var picked: String
     
     var body: some View {
         
@@ -41,15 +45,22 @@ struct ListRowView: View {
                         //                        .onTapGesture(perform: updateCompletion)
                             .frame(maxWidth: 28, alignment: .leading)
                         
-                        Text(item.title)
-                            .keyboardType(.default)
+                        TextField(item.title, text: $textEdit, onEditingChanged: { (editingChanged) in
+                            if editingChanged {
+                                print("TextField focused")
+                            } else {
+                                print("TextField focus removed")
+                            }
+                        })
+                        .keyboardType(.default)
                         //                        .multilineTextAlignment(.leading)
                         //                        .frame(alignment: .leading)
-                            .frame(maxWidth: width, alignment: .leading)
+                        .frame(maxWidth: width, alignment: .leading)
                         //                    Spacer()
-                            .mask(
-                                LinearGradient(gradient: Gradient(colors: [Color.black, Color.black.opacity(0)]), startPoint: UnitPoint(x: 0, y: 0), endPoint: UnitPoint(x: gradient, y: 0))
-                            )
+                        
+                        .mask(
+                            LinearGradient(gradient: Gradient(colors: [Color.black, Color.black.opacity(0)]), startPoint: UnitPoint(x: 0, y: 0), endPoint: UnitPoint(x: gradient, y: 0))
+                        )
                         
                     }
                     .padding(.vertical, 8)
@@ -87,7 +98,7 @@ struct ListRowView: View {
             minHeight: 0,
             maxHeight: 55,
             alignment: .leading
-          )
+        )
         
     }
     
@@ -97,15 +108,16 @@ struct ListRowView: View {
 }
 
 
-struct ListRowView_Previews: PreviewProvider {
-    
-    static var item1 = ItemModel(title: "First item!", isCompleted: false)
-    static var item2 = ItemModel(title: "Second Guillaume Loti", isCompleted: true)
-    
-    static var previews: some View {
-        Group {
-//            ListRowView(item: .constant(item1))
-            ListRowView(item: item2, row: 1)
-        }
-    }
-}
+//struct ListRowViewEdit_Previews: PreviewProvider {
+//    
+//    static var item1 = ItemModel(title: "First item!", isCompleted: false)
+//    static var item2 = ItemModel(title: "Second Guillaume Loti", isCompleted: true)
+//    
+//    static var previews: some View {
+//        Group {
+//            //            ListRowView(item: .constant(item1))
+//            ListRowViewEdit(item: item2, row: 1)
+//        }
+//    }
+//}
+
